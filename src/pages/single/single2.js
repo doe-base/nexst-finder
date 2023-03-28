@@ -94,7 +94,7 @@ export default function Single2(){
                 </div>
 
                 <div className={classes.forthSection}>
-                    <h3 className={classes.p}>More about this event</h3>
+                    <h3 className={classes.p}>About this service</h3>
                     <p className={classes.thirdP}>
                         To celebrate International Women's Day this March, our "Tech Jewel" community will be hosting an in-person event for 200+ women from a variety of sectors (Health, Technology, Finance, Education, etc.).</p>
                     <p className={classes.thirdP}>

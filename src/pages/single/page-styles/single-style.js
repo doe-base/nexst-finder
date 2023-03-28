@@ -24,16 +24,17 @@ const useStyles = makeStyles((theme)=>{
             position: 'absolute',
             bottom: '0',
             left: '0',
-            marginLeft: '0.5rem'
+            marginLeft: theme.appBoundaries.sizeLight
         },
         h2: {
-            fontWeight: '600'
+            fontWeight: theme.typography.fontWeightMedium,
+            paddingBottom: theme.appBoundaries.sizeLight
         },
         fullIcon: {
-            color: '#fff',
-            fontSize: '2.3rem',
+            color: theme.palette.secondary.main,
+            fontSize: theme.appBoundaries.sizeRegular3,
             float: "right",
-            margin: '0.5rem'
+            margin: theme.appBoundaries.sizeLight
         },
         colorLine:{
             width: '100%',
@@ -45,24 +46,24 @@ const useStyles = makeStyles((theme)=>{
             position: 'absolute',
             left: '0',
             top: '50%',
-            padding: '0.5rem',
+            padding: theme.appBoundaries.sizeLight,
             borderRadius: '0 0.5rem 0.5rem 0',
 
         },
         tagP: {
             margin: '0',
-            fontSize: '1.1rem',
-            fontWeight: '500',
-            color: '#fff'
+            fontSize:  theme.appBoundaries.sizeRegular,
+            fontWeight: theme.typography.fontWeightRegular,
+            color: theme.palette.secondary.main
             
         },
         goBack: {
             position: 'absolute',
             top: '0',
             left: '0',
-            margin: '0.5rem',
+            margin: theme.appBoundaries.sizeLight,
             zIndex: '10',
-            color: '#fff',
+            color: theme.palette.secondary.main,
             width: '35px',
             height: '35px',
             borderRadius: '50%',
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme)=>{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            fontSize: '2.3rem'
+            fontSize: theme.appBoundaries.sizeRegular3
         },
         firstSection: {
             width: '100%',
@@ -81,14 +82,14 @@ const useStyles = makeStyles((theme)=>{
         half: {
             width: '100%',
             textAlign: 'center',
-            color: '#fff',
+            color: theme.palette.secondary.main,
             display: "flex",
             justifyContent: 'center',
             alignItems: 'center'
         },
         p: {
-            color: '#fff',
-            fontSize: '1.2rem'
+            color: theme.palette.secondary.main,
+            fontSize: theme.appBoundaries.sizeRegular
         },
         shortLine: {
             height: '40px',
@@ -102,30 +103,31 @@ const useStyles = makeStyles((theme)=>{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: '0 0.5rem',
+            padding: theme.appBoundaries.sizeLight2,
             background: 'rgb(0 0 0 / 20%)',
         
         },
         thirdSection: {
-            marginLeft: '3rem'
+            marginLeft: theme.appBoundaries.sizeMedium
         },
         creditText: {
             color: '#ccc',
-            fontSize: '0.8rem'
+            fontSize: theme.appBoundaries.sizeLight2
         },
         brandName: {
             color: '#bb9c2d'
         },
         thirdP: {
-            color: '#fff',
-            fontSize: '0.9rem',
-            lineHeight: '22px'
+            color: theme.palette.secondary.main,
+            fontSize: theme.appBoundaries.sizeRegular,
+            lineHeight: '24px',
+            margin: `${theme.appBoundaries.sizeLight} 0`
         },
         thirdPHolder:{
             borderBottom: '0.2px solid #646464',
         },
         forthSection: {
-            padding: '0 0.5rem',
+            padding: theme.appBoundaries.sizeLight2,
             borderTop: '0.5px solid #646464',
             borderBottom: '0.5px solid #646464',
         },
@@ -150,27 +152,27 @@ const useStyles = makeStyles((theme)=>{
         Img: {
             width: '100%',
             height: '100%',
-            marginRight: '1rem'
+            marginRight: theme.appBoundaries.sizeRegular
         },
         fifthSection: {
             textAlign: 'center',
-            padding: '1rem 0'
+            padding: `${theme.appBoundaries.sizeRegular} 0`
         },
       
         creditText2: {
             color: '#ccc',
-            fontSize: '0.8rem',
-            margin: '0.5rem 0'
+            fontSize: theme.appBoundaries.sizeLight2,
+            margin: `${theme.appBoundaries.sizeLight2} 0`
         },
         textHolder:{
-            margin: '1.5rem 0',
+            margin: `${theme.appBoundaries.sizeRegular2} 0`,
             display: 'grid'
         },
         contactHolder: {
-            margin: '1.5rem 0'
+            margin: `${theme.appBoundaries.sizeRegular2} 0`
         },
         contactBtn: {
-            margin: '0 0.5rem'
+            margin: `0 ${theme.appBoundaries.sizeLight}`
         },
         thumbBtnHolder:{
             height: '50px',
@@ -187,7 +189,7 @@ const useStyles = makeStyles((theme)=>{
             alignItems: 'center',
             justifyContent: 'space-between',
             color: '#fff',
-            padding: '0.5rem'
+            padding: theme.appBoundaries.sizeLight
         },
         thubBtn2: {
             width: '100%',
@@ -198,10 +200,10 @@ const useStyles = makeStyles((theme)=>{
             alignItems: 'center',
             justifyContent: 'space-between',
             color: '#fff',
-            padding: '0.5rem'
+            padding: theme.appBoundaries.sizeLight
         },
         thumbIcon: {
-            fontSize: '1.9rem',
+            fontSize: theme.appBoundaries.sizeRegular3,
             color: '#999999'
         }
 

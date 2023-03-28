@@ -4,7 +4,6 @@ import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ShareSharpIcon from '@material-ui/icons/ShareSharp';
 import ThumbUpSharpIcon from '@material-ui/icons/ThumbUpSharp';
-
 import { Button } from '@material-ui/core';
 
 
