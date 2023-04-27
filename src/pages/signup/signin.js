@@ -5,7 +5,7 @@ import {Container} from "@material-ui/core";
 import styleFunctions from "./pages-styles/signup-styles";
 import {TextField} from "@material-ui/core";
 import axios from "axios";
-
+import { useNavigate  } from 'react-router-dom';
 
 
 export default function Signin() {
@@ -14,10 +14,16 @@ export default function Signin() {
   const [userEmail, setUserEmail] = useState('')
   const [isFieldEmpty, setIsFieldEmpty] = useState(false)
   const [emailSigninError, setEmailSigninError] = useState(false)
+  let navigate = useNavigate();
 
   const handleGoogle =()=>{
    window.open(
     `${process.env.REACT_APP_API_URL}/auth/google`, "_self"
+   )
+  }
+  const handleFacebook =()=>{
+   window.open(
+    `${process.env.REACT_APP_API_URL}/auth/facebook`, "_self"
    )
   }
 
@@ -44,8 +50,8 @@ export default function Signin() {
       };
       axios(options)
       .then((response) => {
-        console.log(response.data);
         setEmailSigninError(false);
+        navigate('/verify')
       })
       .catch((error) => {
         console.log(error);
@@ -107,7 +113,7 @@ export default function Signin() {
             </div>
           
           <div className={classes.hold}>
-            <button className={classes.fwPillIconBtn} type="submit"><div> <img src="./fb.png" alt="" className={classes.buttonsImg}/></div>
+            <button className={classes.fwPillIconBtn} onClick={handleFacebook}><div> <img src="./fb.png" alt="" className={classes.buttonsImg}/></div>
             Sign in with Facebook</button>
           </div>
         </section>

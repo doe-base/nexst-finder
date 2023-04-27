@@ -35,6 +35,9 @@ export default function Layout({ children }){
         }
     ]
 
+    const handleLogout =()=>{
+        window.open(`${process.env.REACT_APP_API_URL}/auth/logout`, '_self')
+    }
 
 
     return (
@@ -95,7 +98,7 @@ export default function Layout({ children }){
                             <div className={classes.avatar}>
                                 <PermIdentityOutlinedIcon className={classes.avatarIcon}/>
                             </div>
-                            <p className={classes.userName}>user</p>
+                            <p className={classes.userName} onClick={handleLogout}>logout</p>
                         </div>
                     </Toolbar>
                 </AppBar>

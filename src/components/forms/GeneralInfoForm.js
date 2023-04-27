@@ -512,7 +512,7 @@ React.useEffect(() => {
 
                     <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={city} onChange={handleCity} label="City" fullWidth error={cityError}>
                         <MenuItem value="">
-                            <em>-- None --</em>
+                            <em>-- Select State --</em>
                         </MenuItem>
 
                         {

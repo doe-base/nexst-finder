@@ -1,12 +1,16 @@
 import { Container } from "@material-ui/core";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import useStyles from "./page-styles/verify-mail-styles"
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ReactCodeInput from 'react-verification-code-input';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom'
+import {authContext} from "../../context/auth-context"
 
 export default function VerifyMail(){
     const classes = useStyles()
+    const navigate = useNavigate()
+    const {setUser, setAuthMethod, setSignInComplete } = useContext(authContext)
 
     // The state for our timer
 	const [timer, setTimer] = useState('30');
@@ -70,10 +74,8 @@ export default function VerifyMail(){
                   'Accept': 'application/json',
                   'Content-Type': 'application/json'
                 },
-                // mode: 'same-origin',
-                // redirect: 'follow',
                 credentials: 'include', 
-                withCredentials: true, // Don't forget to specify this if you need cookies
+                withCredentials: true,
                 data: {
                     Code: e
                 }
@@ -81,229 +83,15 @@ export default function VerifyMail(){
 
             axios(options)
             .then(function (response) {
-                console.log(response.data);
+                setSignInComplete(response.data.user.complete);
+                setUser(response.data.user.auth_id)
+                setAuthMethod('email')
+                navigate('/')
               })
         }catch(error){
             console.error(error)
         }
     }
-
-
-
-//     const [input1, setInput1] = React.useState(false)
-//     const [input2, setInput2] = React.useState(true)
-//     const [input3, setInput3] = React.useState(true)
-//     const [input4, setInput4] = React.useState(true)
-//     const [input5, setInput5] = React.useState(true)
-//     const [input6, setInput6] = React.useState(true)
-
-//     const input1Ref = React.useRef(null)
-//     const input2Ref = React.useRef(null)
-//     const input3Ref = React.useRef(null)
-//     const input4Ref = React.useRef(null)
-//     const input5Ref = React.useRef(null)
-//     const input6Ref = React.useRef(null)
-
-    
-
-
-
-//     const handleInputChange = (e)=>{
-//         if (e.currentTarget.value.length == 1){
-//             setInput1(true)
-//             setInput2(false)
-//         }
-//     }
-//     const handleInputChange2 =(e)=>{
-//         if (e.currentTarget.value.length == 1){
-//             setInput2(true)
-//             setInput3(false)
-//         }
-//     }
-//     const handleInputChange3 =(e)=>{
-//         if (e.currentTarget.value.length == 1){
-//             setInput3(true)
-//             setInput4(false)
-//         }
-//     }
-//     const handleInputChange4 =(e)=>{
-//         if (e.currentTarget.value.length == 1){
-//             setInput4(true)
-//             setInput5(false)
-//         }
-//     }
-//     const handleInputChange5 =(e)=>{
-//         if (e.currentTarget.value.length == 1){
-//             setInput5(true)
-//             setInput6(false)
-//         }
-//     }
-//     const handleInputChange6 =(e)=>{
-//         if (e.currentTarget.value.length > 1){
-//             e.currentTarget.value = e.currentTarget.value[1]
-//         }
-//     }
-
-//     React.useEffect(()=>{
-//         if(input1 === false){
-//             input1Ref.current.focus()
-//         }
-//         if(input2 === false){
-//             input2Ref.current.focus()
-//         }
-//         if(input3 === false){
-//             input3Ref.current.focus()
-//         }
-//         if(input4 === false){
-//             input4Ref.current.focus()
-//         }
-//         if(input5 === false){
-//             input5Ref.current.focus()
-//         }
-//         if(input6 === false){
-//             input6Ref.current.focus()
-//         }
-//     }, [input1, input2, input3, input4, input5, input6])
-
-
-
-//     document.addEventListener("keydown", KeyCheck);  //or however you are calling your method
-//     function KeyCheck(event)
-//     {
-//     var KeyID = event.keyCode;
-
-//     if(KeyID == 8 || KeyID == 46){
-//         if(!input6 && input6Ref.current.value == ''){
-//             setInput6(true)
-//             setInput5(false)
-//         }
-//         if(!input5 && input5Ref.current.value == ''){
-//             setInput5(true)
-//             setInput4(false)
-//         }
-//         if(!input4 && input4Ref.current.value == ''){
-//             setInput4(true)
-//             setInput3(false)
-//         }
-//         if(!input3 && input3Ref.current.value == ''){
-//             setInput3(true)
-//             setInput2(false)
-//         }
-//         if(!input2 && input2Ref.current.value == ''){
-//             setInput2(true)
-//             setInput1(false)
-//         }
-//         // if(!input1 && input1Ref.current.value == ''){
-//         //     setInput2(true)
-//         //     setInput1(false)
-//         // }
-//     }
-// }
-//     const [activeInput, setActiveInput] = useState({})
-
-//     const input1 = useRef(null)
-//     const input2 = useRef(null)
-//     const input3 = useRef(null)
-//     const input4 = useRef(null)
-//     const input5 = useRef(null)
-//     const input6 = useRef(null)
-
-//     const [inputFields, setInputFields] = useState([
-//         {
-//             id: 1,
-//             isActive: true,
-//             ref: input1,
-//             value: ''
-//         },
-//         {
-//             id: 2,
-//             isActive: false,
-//             ref: input2,
-//             value: ''
-//         },
-//         {
-//             id: 3,
-//             isActive: false,
-//             ref: input3,
-//             value: ''
-//         },
-//         {
-//             id: 4,
-//             isActive: false,
-//             ref: input4,
-//             value: ''
-//         },
-//         {
-//             id: 5,
-//             isActive: false,
-//             ref: input5,
-//             value: ''
-//         },
-//         {
-//             id: 6,
-//             isActive: false,
-//             ref: input6,
-//             value: ''
-//         },
-//     ])
-
-//     const handleInputChange = (e) => {
-//         if(e.target.id === '1' && e.target.value.length > 0){
-//             setInputFields(inputFields.map(item => item.id === 2 ? {...item, isActive: true} : {...item, isActive: false} ))
-//             input2.current.focus()
-//         }        
-//         if(e.target.id === '2' && e.target.value.length > 0){
-//             setInputFields(inputFields.map(item => item.id === 3 ? {...item, isActive: true} : {...item, isActive: false} ))
-//             input3.current.focus()
-//         }        
-//         if(e.target.id === '3' && e.target.value.length > 0){
-//             setInputFields(inputFields.map(item => item.id === 4 ? {...item, isActive: true} : {...item, isActive: false} ))
-//             input4.current.focus()
-//         }        
-//         if(e.target.id === '4' && e.target.value.length > 0){
-//             setInputFields(inputFields.map(item => item.id === 5 ? {...item, isActive: true} : {...item, isActive: false} ))
-//             input5.current.focus()
-//         }        
-//         if(e.target.id === '5' && e.target.value.length > 0){
-//             setInputFields(inputFields.map(item => item.id === 6 ? {...item, isActive: true} : {...item, isActive: false} ))
-//             input6.current.focus()
-//         }        
-//         // if(e.target.id === '6' && e.target.value.length > 0){
-//         //     setInputFields(inputFields.map(item => item && {...item, isActive: false} ))
-//         // }        
-             
-//     }
-
-//     useEffect(()=>{
-//         inputFields.map(item=>{
-//             if(item.isActive){
-//                 item.ref.current.focus()
-//             }
-//         })
-//     },[inputFields])
-
-//     const updateActiveInput =(activeInput)=>{
-        
-//         const currentId = activeInput.id
-//         setInputFields(inputFields.map(item => item.id === currentId - 1 ? {...item, isActive: true} : {...item, isActive: false} ))
-//     }
-
-
-//     document.addEventListener("keydown", KeyCheck);  //or however you are calling your method
-//     function KeyCheck(event)
-//     {
-//     var KeyID = event.keyCode;
-
-//     if(KeyID == 8 || KeyID == 46){
-//         inputFields.map(item => {
-//             if(item.isActive === true){
-//                 setActiveInput(item)
-//                 updateActiveInput(item)
-//             }
-//         })
-//     }
-// }
-
 
 
 return(

@@ -1,4 +1,4 @@
-import react, {useRef} from 'react'
+import react, {useRef, useState} from 'react'
 import useStyles from "./page-style/home-style";
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
@@ -6,24 +6,81 @@ import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import { Container, Link, Typography } from '@material-ui/core';
 import FastfoodOutlinedIcon from '@material-ui/icons/FastfoodOutlined';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-// import CampaignOutlinedIcon from '@material-ui/icons/CampaignOutlined';
 import MoreOutlinedIcon from '@material-ui/icons/MoreOutlined';
 import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import homeData from '../../fixtures/home-data'
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
+import useRecommender from '../../hooks/useRecommender';
 
-// import HomeIcon from '@mui/icons-material/Home';
-// import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 
 
+export default function Home({ user, authMethod, setSignInComplete }){
 
-export default function Home(){
+    const navigate = useNavigate()
     const {useStyle, useStyle2} = useStyles
     const classes = useStyle();
     const largeClasses = useStyle2()
-
     const {menuData, eventData, serivceData} = homeData
+
+    
+    const [finalResult, setUserInfo] = useRecommender()
+
+    if(finalResult){
+        // console.log(finalResult)
+    }   
+    
+
+/*
+=============================================================== 
+//**  Registration status Check
+===============================================================
+*/
+    useEffect(()=>{
+        try{
+            const url = `${process.env.REACT_APP_API_URL}/user/complete-check`
+            const options = {
+                url: url,
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                credentials: 'include', 
+                withCredentials: true,
+                data: {
+                    UserID: user,
+                    AuthMethod: authMethod,
+                }
+            };
+            axios(options)
+            .then(function (response){
+                console.log(response.data.complete)
+                setSignInComplete(response.data.complete)
+
+                if(response.data.complete == 1){
+                    console.log(response.data)
+                    setUserInfo(response.data)
+                }else if(response.data.complete == 0){
+                    navigate('/complete')
+                }else{
+            
+                }
+            })
+        }
+        catch(err){
+            console.log(err)
+        }
+
+       
+    }, [])
+
+    
+
+    
     
 
     return (
@@ -58,7 +115,7 @@ export default function Home(){
                             menuData.map((item, index) =>{
                                 return (
 
-                                    <div className={classes.card}>
+                                    <div className={classes.card} key={index}>
                                         <div className={classes.imgHolder}>
                                             <div className={classes.cardOverlay}></div>
                                             <img src={item.img} alt="" className={classes.img}/>
@@ -89,7 +146,7 @@ export default function Home(){
                             eventData.map((item, index) =>{
                                 return (
 
-                                    <div className={classes.card}>
+                                    <div className={classes.card} key={index}>
                                         <div className={classes.imgHolder}>
                                             <div className={classes.cardOverlay}></div>
                                             <img src={item.img} alt="" className={classes.img}/>
@@ -124,7 +181,7 @@ export default function Home(){
                             serivceData.map((item, index) =>{
                                 return (
 
-                                    <div className={classes.card}>
+                                    <div className={classes.card} key={index}>
                                         <div className={classes.imgHolder}>
                                             <div className={classes.cardOverlay}></div>
                                             <img src={item.img} alt="" className={classes.img}/>

@@ -1,5 +1,5 @@
-import React from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, {useContext, useState, useEffect, useLayoutEffect} from "react"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Signin from "./pages/signup/signin";
 import Home from "./pages/home/home";
 import Single from "./pages/single/single";
@@ -7,13 +7,18 @@ import Single2 from "./pages/single/single2";
 import Single3 from "./pages/single/single3";
 import VerifyMail from "./pages/verify-mail/verify-mail";
 import Layout from "./components/layout/layout";
-
-import axios from "axios";
+import Welcome from "./pages/welcome/welcome"
+import {authContext} from "./context/auth-context"
 import {createTheme, ThemeProvider } from "@material-ui/core"
-import { green } from "@material-ui/core/colors"
+import axios from "axios";
+import Form from "./pages/form/form";
 
 
-
+/*
+=============================================================== 
+//* Define MUI Themes
+===============================================================
+*/
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -24,6 +29,7 @@ const theme = createTheme({
       xl: 1536,
     },
   },
+  
   palette: {
     primary:{
       main: '#47bb5e',
@@ -34,7 +40,8 @@ const theme = createTheme({
     },
     neutral: {
       main: "#fc4445"
-    }
+    },
+    type: 'dark',
   },
   typography: {
     fontFamily: 'Montserrat',
@@ -54,54 +61,74 @@ const theme = createTheme({
   }
 })
 
+
 function App() {
+  
+const { user, setUser, authMethod, setAuthMethod, signInComplete, setSignInComplete } = useContext(authContext)
+const [isLoading, setIsLoading] = useState(true)
 
-  // const [user, setUser] = React.useState({})
-    
-  const getUser = async()=>{
-      try{
-          const url = `${process.env.REACT_APP_API_URL}/auth/login/success`
-          const options = {
-            url: url,
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json;charset=UTF-8'
-            },
-            withCredentials: true
+
+/*
+=============================================================== 
+//* Login Status Checker
+===============================================================
+*/
+const isLoggedIn = async()=>{
+const emailUrl = `${process.env.REACT_APP_API_URL}/auth/email/success`
+const auth0 = `${process.env.REACT_APP_API_URL}/auth/login/success`
+  /*
+  =============================================================== 
+  //**  Email
+  ===============================================================
+  */
+  try{
+      const options = {
+      url: emailUrl,
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+      },
+      withCredentials: true
+      };
+
+      const {data} = await axios(options)
+      setUser(data.user.auth_id)
+      setAuthMethod('email')
+      setIsLoading(false)
+      return
+      }catch(err){
+          /*
+            =============================================================== 
+            //**  0Auth
+            ===============================================================
+            */
+          try{
+              const options = {
+                  url: auth0,
+                  method: 'GET',
+                  headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8'
+                  },
+                  withCredentials: true
+              };
+          
+              const {data} = await axios(options)
+      
+              setUser(data.user.auth_id)
+              setAuthMethod(data.user.provider)
+              setIsLoading(false)
+              return
+          }catch(err){
+              setIsLoading(false)
           }
-          const {data} = await axios(options)
-          console.log(data.user)
-
-      }catch(err){
-          console.log(err)
       }
-  }
-  const getUser2 = async()=>{
-    const url = `${process.env.REACT_APP_API_URL}/auth/email/success`
-      try{
-          const options = {
-            url: url,
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json;charset=UTF-8'
-            },
-            withCredentials: true
-          };
-
-          const {data} = await axios(options)
-          console.log(data.user)
-
-      }catch(err){
-          console.log(err)
-      }
-  }
-
-  React.useEffect(()=>{
-      getUser()
-      getUser2()
-  }, [])
+}
+useLayoutEffect(()=>{
+  isLoggedIn()
+}, [])
+ 
 
 
   return (
@@ -110,10 +137,11 @@ function App() {
           <BrowserRouter>
             <Layout>
                 <Routes>
-                  <Route path="/" element={ <Home /> } />
-                  <Route path="/signin" element={ <Signin /> } />
-                  <Route path="/event" element={ <Single3 /> } />
+                 <Route exact path='/' element={isLoading ? <h1>Loading</h1> : user ? <Home user={user} authMethod={authMethod}  setSignInComplete={setSignInComplete}/> : <Welcome />} />
+                 <Route exact path='/signin' element={user ? <Navigate to='/' /> : <Signin />}/>
+                 {/* <Route path="/event" element={ <Single3 /> } /> */}
                   <Route path="/verify" element={ <VerifyMail /> } />
+                  <Route path="/complete" element={ <Form /> } />
                 </Routes> 
             </Layout>
           </BrowserRouter>

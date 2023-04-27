@@ -85,7 +85,10 @@ input[type=number] {
   background-color: transparent !important;
   width: 100% !important;
 }
-
+.makeStyles-inputsField-31{
+  background: none !important;
+  width: 100% !important;
+}
 
 
 /* Material UI */
